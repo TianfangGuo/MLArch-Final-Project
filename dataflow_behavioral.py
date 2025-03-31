@@ -58,12 +58,67 @@ def gustavson(A, B):
         row_acc = [0 for _ in range(n)]
         for k in range(p):
             if A[i][k] != 0:  # in a sparse matrix, skip when the entry is zero
+                totalOPs += 1;
                 for j in range(n):
                     row_acc[j] += A[i][k] * B[k][j]
                     totalOPs += 1;
         C[i] = row_acc
     print("gustavson's number of operations: ", totalOPs)
     return C
+
+def inner_product_csr_csc(csrA, cscB):
+    dataA, indicesA, indptrA, shapeA = csrA
+    dataB, indicesB, indptrB, shapeB = cscB
+    totalOPs = 0;
+    m, kA = shapeA
+    kB, n = shapeB
+
+    if kA != kB:
+        raise ValueError("Inner dimensions do not match for multiplication.")
+    
+    # Initialize the result matrix as a dense array
+    C = [[0 for _ in range(n)] for _ in range(m)]
+    
+    # For each row of A (in CSR format)
+    for i in range(m):
+        row_start = indptrA[i]
+        row_end = indptrA[i + 1]
+        row_indices = indicesA[row_start:row_end]
+        row_values = dataA[row_start:row_end]
+        totalOPs += 4;
+        
+        # For each column of B (in CSC format)
+        for j in range(n):
+            col_start = indptrB[j]
+            col_end = indptrB[j + 1]
+            col_indices = indicesB[col_start:col_end]
+            col_values = dataB[col_start:col_end]
+            totalOPs += 4;
+            
+            # Compute the dot product of A[i,:] and B[:,j]
+            dot = 0
+            a_ptr, b_ptr = 0, 0
+            while a_ptr < len(row_indices) and b_ptr < len(col_indices):
+                a_index = row_indices[a_ptr]
+                b_index = col_indices[b_ptr]
+                totalOPs += 2;
+                if a_index == b_index:
+                    dot += row_values[a_ptr] * col_values[b_ptr]
+                    a_ptr += 1
+                    b_ptr += 1
+                    totalOPs +=3;
+                elif a_index < b_index:
+                    a_ptr += 1
+                    totalOPs +=1;
+                else:
+                    b_ptr += 1
+                    totalOPs +=1;
+            
+            C[i][j] = dot
+    
+    print("inner product with CSRxCSC inputs number of operations: ", totalOPs)
+    return C
+
 
 def csr_gustavson(csrA, csrB):
     dataA, indicesA, indptrA, shapeA = csrA
@@ -112,6 +167,29 @@ def dense_to_csr(matrix):
                 data.append(value)
                 indices.append(j)
         # After processing a row, record the current length of data as the end pointer for that row.
+        indptr.append(len(data))
+    
+    return data, indices, indptr, (m, n)
+
+def dense_to_csc(matrix):
+    data = []
+    indices = []
+    indptr = [0]
+    m = len(matrix)
+    n = len(matrix[0]) if m > 0 else 0
+    
+    # Count nonzeros per column
+    column_data = {j: [] for j in range(n)}
+    for i, row in enumerate(matrix):
+        for j, value in enumerate(row):
+            if value != 0:
+                column_data[j].append((i, value))
+    
+    # Build CSC arrays
+    for j in range(n):
+        for i, value in column_data[j]:
+            data.append(value)
+            indices.append(i)
         indptr.append(len(data))
     
     return data, indices, indptr, (m, n)
@@ -171,14 +249,19 @@ def main():
 
     csrC = dense_to_csr(C)
     csrD = dense_to_csr(D)
+    
+    cscD = dense_to_csc(D)
     #print_csr(data, indices, indptr)
     
     C_csr_gustavson = csr_gustavson(csrC, csrD)
+    C_CSRxCSC_inner = inner_product_csr_csc(csrC, cscD)
     
     same = (C_inner == C_outer == C_gustavson)
     print("All methods produce the same result:", same)
     same2 = C_gustavson == C_csr_gustavson
     print("Gustavson CSR format matches naive format output: ", same2)
+    same3 = C_CSRxCSC_inner == C_inner
+    print("optimized inner matches naive inner output: ", same3)
     
 
 if __name__ == '__main__':
