@@ -67,9 +67,9 @@ def gustavson(A, B):
     return C
 
 def inner_product_csr_csc(csrA, cscB):
-    dataA, indicesA, indptrA, shapeA = csrA
-    dataB, indicesB, indptrB, shapeB = cscB
-    totalOPs = 0;
+    dataA, indicesA, indptrA, shapeA, input_conversion_overheadA = csrA
+    dataB, indicesB, indptrB, shapeB, input_conversion_overheadB = cscB
+    totalOPs = input_conversion_overheadA + input_conversion_overheadB
     m, kA = shapeA
     kB, n = shapeB
 
@@ -85,7 +85,6 @@ def inner_product_csr_csc(csrA, cscB):
         row_end = indptrA[i + 1]
         row_indices = indicesA[row_start:row_end]
         row_values = dataA[row_start:row_end]
-        totalOPs += 4;
         
         # For each column of B (in CSC format)
         for j in range(n):
@@ -93,7 +92,6 @@ def inner_product_csr_csc(csrA, cscB):
             col_end = indptrB[j + 1]
             col_indices = indicesB[col_start:col_end]
             col_values = dataB[col_start:col_end]
-            totalOPs += 4;
             
             # Compute the dot product of A[i,:] and B[:,j]
             dot = 0
@@ -106,13 +104,11 @@ def inner_product_csr_csc(csrA, cscB):
                     dot += row_values[a_ptr] * col_values[b_ptr]
                     a_ptr += 1
                     b_ptr += 1
-                    totalOPs +=3;
+                    totalOPs +=1;
                 elif a_index < b_index:
                     a_ptr += 1
-                    totalOPs +=1;
                 else:
                     b_ptr += 1
-                    totalOPs +=1;
             
             C[i][j] = dot
     
@@ -121,11 +117,11 @@ def inner_product_csr_csc(csrA, cscB):
 
 
 def csr_gustavson(csrA, csrB):
-    dataA, indicesA, indptrA, shapeA = csrA
-    dataB, indicesB, indptrB, shapeB = csrB
+    dataA, indicesA, indptrA, shapeA, input_conversion_overheadA = csrA
+    dataB, indicesB, indptrB, shapeB, input_conversion_overheadB = csrB
     m, kA = shapeA
     kB, n = shapeB
-    totalOPs = 0;
+    totalOPs = input_conversion_overheadA + input_conversion_overheadB
     if kA != kB:
         raise ValueError("Inner dimensions do not match for multiplication.")
     
@@ -136,13 +132,13 @@ def csr_gustavson(csrA, csrB):
         for a_idx in range(indptrA[i], indptrA[i+1]):
             k = indicesA[a_idx]
             a_val = dataA[a_idx]
-            totalOPs += 2;
+            totalOPs += 1;
             # Get row k of B from its CSR structure.
             for b_idx in range(indptrB[k], indptrB[k+1]):
                 j = indicesB[b_idx]
                 b_val = dataB[b_idx]
                 row_acc[j] += a_val * b_val
-                totalOPs += 3;
+                totalOPs += 1;
         C[i] = row_acc
     print("gustavson's with CSR input number of operations: ", totalOPs)
     return C
@@ -158,6 +154,7 @@ def dense_to_csr(matrix):
     data = []
     indices = []
     indptr = [0]  # Start of first row is at index 0 in data
+    overhead = 0;
     m = len(matrix)
     n = len(matrix[0]) if m > 0 else 0
 
@@ -166,15 +163,17 @@ def dense_to_csr(matrix):
             if value != 0:
                 data.append(value)
                 indices.append(j)
+                overhead += 1;
         # After processing a row, record the current length of data as the end pointer for that row.
         indptr.append(len(data))
     
-    return data, indices, indptr, (m, n)
+    return data, indices, indptr, (m, n), overhead
 
 def dense_to_csc(matrix):
     data = []
     indices = []
     indptr = [0]
+    overhead = 0;
     m = len(matrix)
     n = len(matrix[0]) if m > 0 else 0
     
@@ -184,15 +183,17 @@ def dense_to_csc(matrix):
         for j, value in enumerate(row):
             if value != 0:
                 column_data[j].append((i, value))
+                overhead += 1;
     
     # Build CSC arrays
     for j in range(n):
         for i, value in column_data[j]:
             data.append(value)
             indices.append(i)
+            overhead += 1;
         indptr.append(len(data))
     
-    return data, indices, indptr, (m, n)
+    return data, indices, indptr, (m, n), overhead
 
 def print_csr(data, indices, indptr):
     print("CSR Representation:")
