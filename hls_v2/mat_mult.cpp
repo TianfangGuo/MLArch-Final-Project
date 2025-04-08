@@ -1,6 +1,8 @@
 #include "mat_mult.h"
 #include <cstdint>
 
+// Assumption: Dimensions are a multiple of the block sizes
+
 void mat_mult(
     const uint32_t M,
     const uint32_t N,
@@ -9,9 +11,9 @@ void mat_mult(
     const uint32_t *B,
     uint32_t *C
 ) {
-    #pragma HLS INTERFACE m_axi port=A offset=slave depth=1024 bundle=wrapper0
-    #pragma HLS INTERFACE m_axi port=B offset=slave depth=1024 bundle=wrapper0
-    #pragma HLS INTERFACE m_axi port=C offset=slave depth=1024 bundle=wrapper0
+    #pragma HLS INTERFACE m_axi port=A offset=slave depth=1024 bundle=gmem0
+    #pragma HLS INTERFACE m_axi port=B offset=slave depth=1024 bundle=gmem1
+    #pragma HLS INTERFACE m_axi port=C offset=slave depth=1024 bundle=gmem0
     #pragma HLS INTERFACE s_axilite port=M bundle=control
     #pragma HLS INTERFACE s_axilite port=N bundle=control
     #pragma HLS INTERFACE s_axilite port=K bundle=control
@@ -41,42 +43,38 @@ void mat_mult(
             #pragma HLS LOOP_TRIPCOUNT min=1 max=1
                 // Load A and B blocks into buffers
                 load_A_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                #pragma HLS PIPELINE off
                     load_A_k: for (uint32_t k = 0; k < SIZE_K; k++) {
-                        if (block_m + m < M && block_k + k < K) {
-                            A_buf[m][k] = A[(block_m + m) * K + (block_k + k)];
-                        } else {
-                            A_buf[m][k] = 0;
-                        }
+                    #pragma HLS PIPELINE
+                        A_buf[m][k] = A[(block_m + m) * K + (block_k + k)];
                     }
                 }
                 load_B_k: for (uint32_t k = 0; k < SIZE_K; k++) {
+                #pragma HLS PIPELINE off
                     load_B_n: for (uint32_t n = 0; n < SIZE_N; n++) {
-                        if (block_k + k < K && block_n + n < N) {
-                            B_buf[k][n] = B[(block_k + k) * N + (block_n + n)];
-                        } else {
-                            B_buf[k][n] = 0;
-                        }
+                    #pragma HLS PIPELINE
+                        B_buf[k][n] = B[(block_k + k) * N + (block_n + n)];
                     }
                 }
 
                 // Compute the product of A and B blocks
                 compute_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                #pragma HLS PIPELINE off
                     compute_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+                    #pragma HLS PIPELINE
                         compute_k: for (uint32_t k = 0; k < SIZE_K; k++) {
                         #pragma HLS UNROLL
-                        	if (block_m + m < M && block_n + n < N) {
-                                C_buf[m][n] += A_buf[m][k] * B_buf[k][n];
-                        	}
+                            C_buf[m][n] += A_buf[m][k] * B_buf[k][n];
                         }
                     }
                 }
 
                 // Store the result in the output matrix C
                 store_C_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                #pragma HLS PIPELINE off
                     store_C_n: for (uint32_t n = 0; n < SIZE_N; n++) {
-                        if (block_m + m < M && block_n + n < N) {
-                            C[(block_m + m) * N + (block_n + n)] = C_buf[m][n];
-                        }
+                    #pragma HLS PIPELINE
+                        C[(block_m + m) * N + (block_n + n)] = C_buf[m][n];
                     }
                 }
 
