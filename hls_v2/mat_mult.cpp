@@ -26,50 +26,54 @@ void mat_mult(
     #pragma HLS array_partition variable=B_buf complete dim=1
 
     // Perform matrix multiplication (inner product)
-    for (uint32_t block_m = 0; block_m < M; block_m += SIZE_M) {
-        for (uint32_t block_n = 0; block_n < N; block_n += SIZE_N) {
-            for (uint32_t block_k = 0; block_k < K; block_k += SIZE_K) {
+    loop_block_m: for (uint32_t block_m = 0; block_m < M; block_m += SIZE_M) {
+    #pragma HLS LOOP_TRIPCOUNT min=1 max=1
+        loop_block_n: for (uint32_t block_n = 0; block_n < N; block_n += SIZE_N) {
+        #pragma HLS LOOP_TRIPCOUNT min=1 max=1
+        	// Reset C_buf to zero
+        	rst_c_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+        	    rst_c_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+        	        C_buf[m][n] = 0;
+        	    }
+        	}
 
+            loop_block_k: for (uint32_t block_k = 0; block_k < K; block_k += SIZE_K) {
+            #pragma HLS LOOP_TRIPCOUNT min=1 max=1
                 // Load A and B blocks into buffers
-                // Reset C_buf to zero
-                for (uint32_t i = 0; i < SIZE_M; i++) {
-                    for (uint32_t j = 0; j < SIZE_N; j++) {
-                        C_buf[i][j] = 0;
-                    }
-                }
-                for (uint32_t i = 0; i < SIZE_M; i++) {
-                    for (uint32_t k = 0; k < SIZE_K; k++) {
-                        if (block_m + i < M && block_k + k < K) {
-                            A_buf[i][k] = A[(block_m + i) * K + (block_k + k)];
+                load_A_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                    load_A_k: for (uint32_t k = 0; k < SIZE_K; k++) {
+                        if (block_m + m < M && block_k + k < K) {
+                            A_buf[m][k] = A[(block_m + m) * K + (block_k + k)];
                         } else {
-                            A_buf[i][k] = 0;
+                            A_buf[m][k] = 0;
                         }
                     }
                 }
-                for (uint32_t k = 0; k < SIZE_K; k++) {
-                    for (uint32_t j = 0; j < SIZE_N; j++) {
-                        if (block_k + k < K && block_n + j < N) {
-                            B_buf[k][j] = B[(block_k + k) * N + (block_n + j)];
+                load_B_k: for (uint32_t k = 0; k < SIZE_K; k++) {
+                    load_B_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+                        if (block_k + k < K && block_n + n < N) {
+                            B_buf[k][n] = B[(block_k + k) * N + (block_n + n)];
                         } else {
-                            B_buf[k][j] = 0;
+                            B_buf[k][n] = 0;
                         }
                     }
                 }
 
                 // Compute the product of A and B blocks
-                for (uint32_t m = 0; m < SIZE_M; m++) {
-                    for (uint32_t n = 0; n < SIZE_N; n++) {
-                        for (uint32_t k = 0; k < SIZE_K; k++) {
-                            if (block_m + m < M && block_n + n < N) {
+                compute_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                    compute_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+                        compute_k: for (uint32_t k = 0; k < SIZE_K; k++) {
+                        #pragma HLS UNROLL
+                        	if (block_m + m < M && block_n + n < N) {
                                 C_buf[m][n] += A_buf[m][k] * B_buf[k][n];
-                            }
+                        	}
                         }
                     }
                 }
 
                 // Store the result in the output matrix C
-                for (uint32_t m = 0; m < SIZE_M; m++) {
-                    for (uint32_t n = 0; n < SIZE_N; n++) {
+                store_C_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                    store_C_n: for (uint32_t n = 0; n < SIZE_N; n++) {
                         if (block_m + m < M && block_n + n < N) {
                             C[(block_m + m) * N + (block_n + n)] = C_buf[m][n];
                         }
