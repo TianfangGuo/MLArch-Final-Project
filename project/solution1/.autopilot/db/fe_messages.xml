@@ -1,0 +1,108 @@
+<xilinx:hls_fe_msgs>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/project/solution1/csynth.tcl:16:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaContext="directive" ARG_PragmaFunction="main" ARG_PragmaIsValid="1" ARG_PragmaOptions="name=main" ARG_PragmaType="top" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:11:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_memory port=valuesA depth=256" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:12:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_memory port=col_indicesA depth=256" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:13:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_memory port=row_ptrA depth=16 +1" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:14:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_memory port=B depth=16*16" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:15:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="ap_memory port=C depth=16*16" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:17:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=M bundle=control" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:18:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=N bundle=control" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:19:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=nnzA bundle=control" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:20:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="s_axilite port=return bundle=control" ARG_PragmaType="interface" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:23:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:28:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:35:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="variable=row_acc complete dim=1" ARG_PragmaType="array_partition" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:39:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:45:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="factor=4" ARG_PragmaType="unroll" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_VERBOSE_DUMP" msg_id="207-5471" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:52:9" msg_body="HLS pragma dump">
+        <args ARG_PragmaFunction="gustavson_hls" ARG_PragmaIsValid="1" ARG_PragmaOptions="II=1" ARG_PragmaType="pipeline" ClangWarningOption="dump-hls-pragmas"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:33:5" msg_body="Loop 'compute_rows' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="compute_rows"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:34:15" msg_body="Loop 'anonymous' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="anonymous"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:38:9" msg_body="Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="compute_nnz"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:44:13" msg_body="Loop 'compute_inner' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="compute_inner"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:51:9" msg_body="Loop 'write_back' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="write_back"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-291" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:27:5" msg_body="Loop 'init_output' is marked as complete unroll implied by the pipeline pragma">
+        <args LoopName="init_output"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Unrolling loop 'compute_rows' (hls_src/accelerator.cpp:33:5) in function 'gustavson_hls' completely with a factor of 4">
+        <args Factor="4" LoopLoc="hls_src/accelerator.cpp:33:5" LoopName="compute_rows"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4">
+        <args Factor="4" LoopLoc="hls_src/accelerator.cpp:51:9" LoopName="write_back"/>
+    </msg>
+    <msg msg_groups="PRAGMA_PIPELINE" msg_id="214-189" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely">
+        <args LoopLoc="hls_src/accelerator.cpp:51:9" LoopName="write_back"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4">
+        <args Factor="4" LoopLoc="hls_src/accelerator.cpp:44:13" LoopName="compute_inner"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16">
+        <args Factor="16" LoopLoc="hls_src/accelerator.cpp:34:15" LoopName="anonymous"/>
+    </msg>
+    <msg msg_groups="PRAGMA_UNROLL" msg_id="214-186" msg_severity="INFO" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Unrolling loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' completely with a factor of 256">
+        <args Factor="256" LoopLoc="hls_src/accelerator.cpp:27:5" LoopName="init_output"/>
+    </msg>
+    <msg msg_groups="PRAGMA_PIPELINE" msg_id="214-189" msg_severity="WARNING" msg_loc="hls_src/accelerator.cpp:10:0" msg_body="Pipeline directive for loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' has been removed because the loop is unrolled completely">
+        <args LoopLoc="hls_src/accelerator.cpp:27:5" LoopName="init_output"/>
+    </msg>
+    <msg msg_groups="AUTOMATION_VERBOSE_PASSED" msg_id="214-335" msg_severity="INFO" msg_loc="hls_src/tb.cpp:0:1" msg_body="array_partition dim=1 type=cyclic factor=4 variable=B 1 main hls_src/tb.cpp:17:11 B">
+        <args PragmaFunction="main" PragmaIsAuto="1" PragmaOptions="dim=1 type=cyclic factor=4 variable=B" PragmaType="array_partition" VarName="B" varLoc="hls_src/tb.cpp:17:11"/>
+    </msg>
+    <msg msg_groups="AUTOMATION PRAGMA_MISC" msg_id="214-270" msg_severity="INFO" msg_loc="hls_src/tb.cpp:17:11" msg_body="Inferring pragma 'array_partition type=cyclic factor=4 dim=1' for array 'B' due to pipeline pragma">
+        <args Dim="1" Factor="4" Mode="cyclic" Name="B" PragmaType="array_partition"/>
+    </msg>
+    <msg msg_groups="AUTOMATION_VERBOSE_PASSED" msg_id="214-335" msg_severity="INFO" msg_loc="hls_src/tb.cpp:0:2" msg_body="array_partition dim=1 type=cyclic factor=64 variable=C 1 main hls_src/tb.cpp:25:11 C">
+        <args PragmaFunction="main" PragmaIsAuto="1" PragmaOptions="dim=1 type=cyclic factor=64 variable=C" PragmaType="array_partition" VarName="C" varLoc="hls_src/tb.cpp:25:11"/>
+    </msg>
+    <msg msg_groups="AUTOMATION PRAGMA_MISC" msg_id="214-270" msg_severity="INFO" msg_loc="hls_src/tb.cpp:25:11" msg_body="Inferring pragma 'array_partition type=cyclic factor=64 dim=1' for array 'C' due to pipeline pragma">
+        <args Dim="1" Factor="64" Mode="cyclic" Name="C" PragmaType="array_partition"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="hls_src/tb.cpp:17:11" msg_body="Applying array_partition to 'B': Cyclic partitioning with factor 4 on dimension 1.">
+        <args Dim="1" Factor="4" Mode="Cyclic" UOName="B"/>
+    </msg>
+    <msg msg_groups="PRAGMA_MISC" msg_id="214-248" msg_severity="INFO" msg_loc="hls_src/tb.cpp:25:11" msg_body="Applying array_partition to 'C': Cyclic partitioning with factor 64 on dimension 1.">
+        <args Dim="1" Factor="64" Mode="Cyclic" UOName="C"/>
+    </msg>
+</xilinx:hls_fe_msgs>
+

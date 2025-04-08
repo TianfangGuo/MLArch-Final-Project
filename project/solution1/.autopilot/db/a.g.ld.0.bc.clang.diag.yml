@@ -1,0 +1,559 @@
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 33, Column: 5 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_rows
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 34, Column: 15 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        anonymous
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 44, Column: 13 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_inner
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 51, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        write_back
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 27, Column: 5 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        init_output
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        compute_rows
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:33:5'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Missed
+Pass:            reflow-pragma-loop-unroll
+Name:            PipelineRemovedByUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Pipeline directive for loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' has been removed because the loop is unrolled completely'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        compute_inner
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:44:13'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        anonymous
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:34:15'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Missed
+Pass:            reflow-pragma-loop-unroll
+Name:            PipelineRemovedByUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Pipeline directive for loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' has been removed because the loop is unrolled completely'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        compute_inner
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:44:13'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        anonymous
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:34:15'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Missed
+Pass:            reflow-pragma-loop-unroll
+Name:            PipelineRemovedByUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Pipeline directive for loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' has been removed because the loop is unrolled completely'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        compute_inner
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:44:13'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        anonymous
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:34:15'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Missed
+Pass:            reflow-pragma-loop-unroll
+Name:            PipelineRemovedByUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Pipeline directive for loop '''
+  - LoopName:        write_back
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:51:9'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' has been removed because the loop is unrolled completely'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        compute_inner
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:44:13'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '4'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        anonymous
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:34:15'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        init_output
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:27:5'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' completely with a factor of '
+  - Factor:          '256'
+...
+--- !Missed
+Pass:            reflow-pragma-loop-unroll
+Name:            PipelineRemovedByUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 10, Column: 0 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Pipeline directive for loop '''
+  - LoopName:        init_output
+  - String:          ''' ('
+  - LoopLoc:         'hls_src/accelerator.cpp:27:5'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gustavson_hls
+  - String:          ''' has been removed because the loop is unrolled completely'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoParallelPerformanceDrivenVerbosePassed
+DebugLoc:        { File: hls_src/tb.cpp, Line: 0, Column: 1 }
+Function:        main
+Args:            
+  - PragmaType:      array_partition
+  - String:          ' '
+  - PragmaOptions:   'dim=1 type=cyclic factor=4 variable=B'
+  - String:          ' '
+  - PragmaIsAuto:    '1'
+  - String:          ' '
+  - PragmaFunction:  main
+  - String:          ' '
+  - varLoc:          'hls_src/tb.cpp:17:11'
+  - String:          ' '
+  - VarName:         B
+  - String:          ' '
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoArrayXform
+DebugLoc:        { File: hls_src/tb.cpp, Line: 17, Column: 11 }
+Function:        main
+Args:            
+  - String:          'Inferring pragma '''
+  - PragmaType:      array_partition
+  - String:          ' type='
+  - Mode:            cyclic
+  - String:          ' factor='
+  - Factor:          '4'
+  - String:          ' dim='
+  - Dim:             '1'
+  - String:          ''' for array '''
+  - Name:            B
+  - String:          ''''
+  - String:          ' due to '
+  - String:          pipeline
+  - String:          ' pragma'
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoParallelPerformanceDrivenVerbosePassed
+DebugLoc:        { File: hls_src/tb.cpp, Line: 0, Column: 2 }
+Function:        main
+Args:            
+  - PragmaType:      array_partition
+  - String:          ' '
+  - PragmaOptions:   'dim=1 type=cyclic factor=64 variable=C'
+  - String:          ' '
+  - PragmaIsAuto:    '1'
+  - String:          ' '
+  - PragmaFunction:  main
+  - String:          ' '
+  - varLoc:          'hls_src/tb.cpp:25:11'
+  - String:          ' '
+  - VarName:         C
+  - String:          ' '
+...
+--- !Passed
+Pass:            reflow-auto-array-partition
+Name:            AutoArrayXform
+DebugLoc:        { File: hls_src/tb.cpp, Line: 25, Column: 11 }
+Function:        main
+Args:            
+  - String:          'Inferring pragma '''
+  - PragmaType:      array_partition
+  - String:          ' type='
+  - Mode:            cyclic
+  - String:          ' factor='
+  - Factor:          '64'
+  - String:          ' dim='
+  - Dim:             '1'
+  - String:          ''' for array '''
+  - Name:            C
+  - String:          ''''
+  - String:          ' due to '
+  - String:          pipeline
+  - String:          ' pragma'
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: hls_src/tb.cpp, Line: 17, Column: 11 }
+Function:        main
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          B
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Cyclic
+  - String:          ' partitioning'
+  - String:          ' with factor '
+  - Factor:          '4'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: hls_src/tb.cpp, Line: 25, Column: 11 }
+Function:        main
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          C
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Cyclic
+  - String:          ' partitioning'
+  - String:          ' with factor '
+  - Factor:          '64'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: hls_src/accelerator.cpp, Line: 38, Column: 9 }
+Function:        _Z13gustavson_hlsiiiPKfPKiS2_S0_Pf
+Args:            
+  - String:          'Loop '''
+  - LoopName:        compute_nnz
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...

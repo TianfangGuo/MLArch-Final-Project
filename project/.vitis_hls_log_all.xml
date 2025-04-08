@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'compute_nnz' (hls_src/accelerator.cpp:38) because its parent loop or function is pipelined." projectName="project" solutionName="solution1" date="2025-04-07T21:11:53.321-0500" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-505] Ignore pipeline pragma in Loop whose tripcount is only 1 (hls_src/accelerator.cpp:39) in function 'gustavson_hls'." projectName="project" solutionName="solution1" date="2025-04-07T21:11:53.311-0500" type="Warning"/>
+        <logs message="WARNING: [HLS 214-189] Pipeline directive for loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' has been removed because the loop is unrolled completely (hls_src/accelerator.cpp:10:0)" projectName="project" solutionName="solution1" date="2025-04-07T21:11:53.088-0500" type="Warning"/>
+        <logs message="WARNING: [HLS 214-189] Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely (hls_src/accelerator.cpp:10:0)" projectName="project" solutionName="solution1" date="2025-04-07T21:11:53.082-0500" type="Warning"/>
+      </synLog>
+      <simLog/>
+      <mgLog/>
+      <packageLog/>
+      <csimLog/>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>

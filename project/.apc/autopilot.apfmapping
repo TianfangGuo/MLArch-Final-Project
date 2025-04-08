@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="accelerator.h" path="/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/hls_src/accelerator.h"/>
+    <originFiles name="accelerator.cpp" path="/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/hls_src/accelerator.cpp"/>
+    <originFiles name="tb.cpp" path="/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/hls_src/tb.cpp"/>
+  </source>
+  <testbench>
+    <originFiles name="tb.cpp" path="/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/hls_src/tb.cpp"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>

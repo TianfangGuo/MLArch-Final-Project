@@ -1,0 +1,96 @@
+
+
+================================================================
+== Synthesis Summary Report of 'main'
+================================================================
++ General Information: 
+    * Date:           Mon Apr  7 21:11:54 2025
+    * Version:        2022.2 (Build 3670227 on Oct 13 2022)
+    * Project:        project
+    * Solution:       solution1 (Vivado IP Flow Target)
+    * Product family: virtexuplus
+    * Target device:  xcvu11p-flga2577-1-e
+    
+
++ Performance & Resource Estimates: 
+    
+    PS: '+' for module; 'o' for loop; '*' for dataflow
+    +--------+------+------+---------+--------+----------+---------+------+----------+------+----+---+----+-----+
+    | Modules| Issue|      | Latency | Latency| Iteration|         | Trip |          |      |    |   |    |     |
+    | & Loops| Type | Slack| (cycles)|  (ns)  |  Latency | Interval| Count| Pipelined| BRAM | DSP| FF| LUT| URAM|
+    +--------+------+------+---------+--------+----------+---------+------+----------+------+----+---+----+-----+
+    |+ main  |     -|  7.30|        0|   0.000|         -|        1|     -|        no|     -|   -|  -|   -|    -|
+    +--------+------+------+---------+--------+----------+---------+------+----------+------+----+---+----+-----+
+
+
+================================================================
+== HW Interfaces
+================================================================
+* Other Ports
++-----------+----------+
+| Interface | Bitwidth |
++-----------+----------+
+| ap_return | 32       |
++-----------+----------+
+
+* TOP LEVEL CONTROL
++-----------+------------+-----------------------------------+
+| Interface | Type       | Ports                             |
++-----------+------------+-----------------------------------+
+| ap_ctrl   | ap_ctrl_hs | ap_done ap_idle ap_ready ap_start |
++-----------+------------+-----------------------------------+
+
+
+================================================================
+== SW I/O Information
+================================================================
+* Top Function Arguments
++----------+-----------+----------+
+| Argument | Direction | Datatype |
++----------+-----------+----------+
+| return   | out       | int      |
++----------+-----------+----------+
+
+* SW-to-HW Mapping
++----------+--------------+---------+
+| Argument | HW Interface | HW Type |
++----------+--------------+---------+
+| return   | ap_return    | port    |
++----------+--------------+---------+
+
+
+================================================================
+== Bind Op Report
+================================================================
+  No bind op info in design
+
+================================================================
+== Bind Storage Report
+================================================================
+  No bind storage info in design
+
+================================================================
+== Pragma Report
+================================================================
+* Valid Pragma Syntax
++-----------------+---------------------------------------+-----------------------------------------------------------+
+| Type            | Options                               | Location                                                  |
++-----------------+---------------------------------------+-----------------------------------------------------------+
+| interface       | ap_memory port=valuesA depth=256      | hls_src/accelerator.cpp:11 in gustavson_hls, valuesA      |
+| interface       | ap_memory port=col_indicesA depth=256 | hls_src/accelerator.cpp:12 in gustavson_hls, col_indicesA |
+| interface       | ap_memory port=row_ptrA depth=16 +1   | hls_src/accelerator.cpp:13 in gustavson_hls, row_ptrA     |
+| interface       | ap_memory port=B depth=16*16          | hls_src/accelerator.cpp:14 in gustavson_hls, B            |
+| interface       | ap_memory port=C depth=16*16          | hls_src/accelerator.cpp:15 in gustavson_hls, C            |
+| interface       | s_axilite port=M bundle=control       | hls_src/accelerator.cpp:17 in gustavson_hls, M            |
+| interface       | s_axilite port=N bundle=control       | hls_src/accelerator.cpp:18 in gustavson_hls, N            |
+| interface       | s_axilite port=nnzA bundle=control    | hls_src/accelerator.cpp:19 in gustavson_hls, nnzA         |
+| interface       | s_axilite port=return bundle=control  | hls_src/accelerator.cpp:20 in gustavson_hls, return       |
+| pipeline        | II=1                                  | hls_src/accelerator.cpp:23 in gustavson_hls               |
+| pipeline        | II=1                                  | hls_src/accelerator.cpp:28 in gustavson_hls               |
+| array_partition | variable=row_acc complete dim=1       | hls_src/accelerator.cpp:35 in gustavson_hls, row_acc      |
+| pipeline        | II=1                                  | hls_src/accelerator.cpp:39 in gustavson_hls               |
+| unroll          | factor=4                              | hls_src/accelerator.cpp:45 in gustavson_hls               |
+| pipeline        | II=1                                  | hls_src/accelerator.cpp:52 in gustavson_hls               |
++-----------------+---------------------------------------+-----------------------------------------------------------+
+
+

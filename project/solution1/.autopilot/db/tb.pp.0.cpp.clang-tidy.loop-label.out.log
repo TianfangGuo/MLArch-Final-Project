@@ -1,0 +1,10 @@
+/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/project/solution1/.autopilot/db/tb.pp.0.cpp:28236:5: warning: Added loop label VITIS_LOOP_32_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < M; i++) {
+    ^~~
+    VITIS_LOOP_32_1: 
+/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/project/solution1/.autopilot/db/tb.pp.0.cpp:28236:5: note: FIX-IT applied suggested code changes
+/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/project/solution1/.autopilot/db/tb.pp.0.cpp:28237:9: warning: Added loop label VITIS_LOOP_33_2:   [xilinx-label-all-loops]
+        for (int j = 0; j < N; j++) {
+        ^~~
+        VITIS_LOOP_33_2: 
+/home/ecelrc/students/mpark4/MLHW/MLArch-Final-Project/project/solution1/.autopilot/db/tb.pp.0.cpp:28237:9: note: FIX-IT applied suggested code changes

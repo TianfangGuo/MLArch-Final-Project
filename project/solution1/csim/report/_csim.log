@@ -1,0 +1,12 @@
+INFO: [SIM 2] *************** CSIM start ***************
+INFO: [SIM 4] CSIM will launch GCC as the compiler.
+   Compiling ../../../../hls_src/tb.cpp in debug mode
+   Compiling ../../../../hls_src/accelerator.cpp in debug mode
+   Generating csim.exe
+Result matrix C:
+7 0 0 22 
+21 0 0 0 
+36 0 40 0 
+35 0 0 66 
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

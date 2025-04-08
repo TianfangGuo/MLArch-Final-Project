@@ -1,0 +1,35 @@
+{"sourceFile": [{
+      "name": "",
+      "directive": [
+        {
+          "functionName": "main",
+          "label": "",
+          "functionLabel": "",
+          "id": "1",
+          "sourceFile": "\/home\/ecelrc\/students\/mpark4\/MLHW\/MLArch-Final-Project\/project\/solution1\/csynth.tcl",
+          "sourceLine": "16",
+          "pragma": {
+            "name": "TOP",
+            "option": [{
+                "name": "name",
+                "value": "main"
+              }]
+          }
+        },
+        {
+          "functionName": "main",
+          "label": "",
+          "functionLabel": "",
+          "id": "2",
+          "sourceFile": "\/home\/ecelrc\/students\/mpark4\/MLHW\/MLArch-Final-Project\/project\/solution1\/csynth.tcl",
+          "sourceLine": "16",
+          "pragma": {
+            "name": "TOP",
+            "option": [{
+                "name": "name",
+                "value": "main"
+              }]
+          }
+        }
+      ]
+    }]}

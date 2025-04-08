@@ -1,0 +1,39 @@
+remark: hls_src/accelerator.cpp:33:5: Loop 'compute_rows' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:34:15: Loop 'anonymous' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:44:13: Loop 'compute_inner' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:51:9: Loop 'write_back' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:27:5: Loop 'init_output' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'compute_rows' (hls_src/accelerator.cpp:33:5) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16
+remark: hls_src/accelerator.cpp:10:0: Unrolling loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' completely with a factor of 256
+remark: hls_src/accelerator.cpp:10:0: Pipeline directive for loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' has been removed because the loop is unrolled completely
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/tb.cpp:0:1: array_partition dim=1 type=cyclic factor=4 variable=B 1 main hls_src/tb.cpp:17:11 B 
+remark: hls_src/tb.cpp:17:11: Inferring pragma 'array_partition type=cyclic factor=4 dim=1' for array 'B' due to pipeline pragma
+remark: hls_src/tb.cpp:0:2: array_partition dim=1 type=cyclic factor=64 variable=C 1 main hls_src/tb.cpp:25:11 C 
+remark: hls_src/tb.cpp:25:11: Inferring pragma 'array_partition type=cyclic factor=64 dim=1' for array 'C' due to pipeline pragma
+remark: hls_src/tb.cpp:17:11: Applying array_partition to 'B': Cyclic partitioning with factor 4 on dimension 1.
+remark: hls_src/tb.cpp:25:11: Applying array_partition to 'C': Cyclic partitioning with factor 64 on dimension 1.
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma
+remark: hls_src/accelerator.cpp:38:9: Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma

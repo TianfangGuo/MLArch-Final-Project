@@ -1,0 +1,158 @@
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+Tool Version Limit: 2019.12
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+==============================================================
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+Tool Version Limit: 2019.12
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+==============================================================
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2022.2 (64-bit)
+Tool Version Limit: 2019.12
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+==============================================================
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1611] Setting target device to 'xcvu11p-flga2577-1-e'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+INFO: [HLS 200-1510] Running: set_part xcvu11p-flga2577-1-e 
+INFO: [HLS 200-1510] Running: create_clock -period 10 -name default 
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0 seconds. CPU system time: 0.01 seconds. Elapsed time: 10.04 seconds; current allocated memory: 757.258 MB.
+INFO: [HLS 200-10] Analyzing design file 'hls_src/tb.cpp' ... 
+INFO: [HLS 200-10] Analyzing design file 'hls_src/accelerator.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 1.62 seconds. CPU system time: 1.28 seconds. Elapsed time: 3.79 seconds; current allocated memory: 757.266 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 214-291] Loop 'compute_rows' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:33:5)
+INFO: [HLS 214-291] Loop 'anonymous' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:34:15)
+INFO: [HLS 214-291] Loop 'compute_nnz' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:38:9)
+INFO: [HLS 214-291] Loop 'compute_inner' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:44:13)
+INFO: [HLS 214-291] Loop 'write_back' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:51:9)
+INFO: [HLS 214-291] Loop 'init_output' is marked as complete unroll implied by the pipeline pragma (hls_src/accelerator.cpp:27:5)
+INFO: [HLS 214-186] Unrolling loop 'compute_rows' (hls_src/accelerator.cpp:33:5) in function 'gustavson_hls' completely with a factor of 4 (hls_src/accelerator.cpp:10:0)
+INFO: [HLS 214-186] Unrolling loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' completely with a factor of 4 (hls_src/accelerator.cpp:10:0)
+WARNING: [HLS 214-189] Pipeline directive for loop 'write_back' (hls_src/accelerator.cpp:51:9) in function 'gustavson_hls' has been removed because the loop is unrolled completely (hls_src/accelerator.cpp:10:0)
+INFO: [HLS 214-186] Unrolling loop 'compute_inner' (hls_src/accelerator.cpp:44:13) in function 'gustavson_hls' completely with a factor of 4 (hls_src/accelerator.cpp:10:0)
+INFO: [HLS 214-186] Unrolling loop 'anonymous' (hls_src/accelerator.cpp:34:15) in function 'gustavson_hls' completely with a factor of 16 (hls_src/accelerator.cpp:10:0)
+INFO: [HLS 214-186] Unrolling loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' completely with a factor of 256 (hls_src/accelerator.cpp:10:0)
+WARNING: [HLS 214-189] Pipeline directive for loop 'init_output' (hls_src/accelerator.cpp:27:5) in function 'gustavson_hls' has been removed because the loop is unrolled completely (hls_src/accelerator.cpp:10:0)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=4 dim=1' for array 'B' due to pipeline pragma (hls_src/tb.cpp:17:11)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=64 dim=1' for array 'C' due to pipeline pragma (hls_src/tb.cpp:25:11)
+INFO: [HLS 214-248] Applying array_partition to 'B': Cyclic partitioning with factor 4 on dimension 1. (hls_src/tb.cpp:17:11)
+INFO: [HLS 214-248] Applying array_partition to 'C': Cyclic partitioning with factor 64 on dimension 1. (hls_src/tb.cpp:25:11)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 4.08 seconds. CPU system time: 0.57 seconds. Elapsed time: 5.31 seconds; current allocated memory: 758.562 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 758.562 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.12 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.2 seconds; current allocated memory: 762.504 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.06 seconds; current allocated memory: 762.727 MB.
+INFO: [XFORM 203-510] Pipelining loop 'Loop-2' in function 'main' automatically.
+WARNING: [XFORM 203-505] Ignore pipeline pragma in Loop whose tripcount is only 1 (hls_src/accelerator.cpp:39) in function 'gustavson_hls'.
+WARNING: [XFORM 203-505] Ignore pipeline pragma in Loop whose tripcount is only 1 (hls_src/accelerator.cpp:39) in function 'gustavson_hls'.
+INFO: [XFORM 203-502] Unrolling all loops for pipelining in function 'gustavson_hls' (hls_src/accelerator.cpp:4:9).
+WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'compute_nnz' (hls_src/accelerator.cpp:38) because its parent loop or function is pipelined.
+WARNING: [XFORM 203-505] Ignored pipeline directive for loop 'compute_nnz' (hls_src/accelerator.cpp:38) because its parent loop or function is pipelined.
+INFO: [HLS 200-489] Unrolling loop 'compute_nnz' (hls_src/accelerator.cpp:38) in function 'gustavson_hls' completely with a factor of 2.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.1' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.2' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.3' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.4' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.5' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.6' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.7' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.8' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.9' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.10' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.11' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.12' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.13' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.14' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.15' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.16' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.17' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.18' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.19' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.20' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.21' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.22' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.23' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.24' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.25' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.26' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.27' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.28' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.29' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.30' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.31' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.32' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.33' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.34' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.35' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.36' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.37' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.38' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.39' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.40' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.41' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.42' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.43' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.44' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.45' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.46' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.47' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.48' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.49' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.50' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.51' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.52' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.53' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.54' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.55' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.56' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.57' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.58' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.59' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.60' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.61' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.62' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-102] Automatically partitioning small array 'C.63' (hls_src/tb.cpp:25) completely based on array size.
+INFO: [XFORM 203-101] Partitioning array 'C' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.1' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.2' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.3' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.4' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.5' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.6' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.7' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.8' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.9' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.10' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.11' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.12' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.13' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.14' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.15' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.16' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.17' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.18' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.19' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.20' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.21' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.22' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.23' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.24' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.25' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.26' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.27' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.28' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.29' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.30' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.31' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.32' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.33' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.34' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.35' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101] Partitioning array 'C.36' (hls_src/tb.cpp:25) in dimension 1 completely.
+INFO: [XFORM 203-101]

@@ -1,0 +1,8 @@
+<pragmas>
+<pragma file="hls_src/accelerator.cpp" line="0" pragmaType="pipeline" parentfunction="gustavson_hls" off="0" ii="1" style=""/>
+<pragma file="hls_src/accelerator.cpp" line="39" pragmaType="pipeline" parentfunction="gustavson_hls" off="0" ii="1" rewind="0" style=""/>
+<pragma file="hls_src/accelerator.cpp" line="52" pragmaType="pipeline" parentfunction="gustavson_hls" off="0" ii="1" rewind="0" style=""/>
+<pragma file="hls_src/accelerator.cpp" line="45" pragmaType="unroll" parentfunction="gustavson_hls" factor="4" skip_exit_check="0"/>
+<pragma file="hls_src/accelerator.cpp" line="28" pragmaType="pipeline" parentfunction="gustavson_hls" off="0" ii="1" rewind="0" style=""/>
+<pragma file="hls_src/accelerator.cpp" line="35" pragmaType="array_partition" parentfunction="gustavson_hls" dim="1" factor="0" mode="complete" dynamic="0" variable="row_acc"/>
+</pragmas>
