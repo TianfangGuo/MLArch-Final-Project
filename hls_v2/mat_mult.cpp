@@ -25,7 +25,10 @@ void mat_mult(
     uint32_t C_buf[SIZE_M][SIZE_N];
 
     #pragma HLS array_partition variable=A_buf complete dim=2
+    #pragma HLS array_partition variable=A_buf cyclic factor=2 dim=1
     #pragma HLS array_partition variable=B_buf complete dim=1
+    #pragma HLS array_partition variable=B_buf cyclic factor=2 dim=2
+    #pragma HLS array_partition variable=C_buf cyclic factor=2 dim=0
 
     // Perform matrix multiplication (inner product)
     loop_block_m: for (uint32_t block_m = 0; block_m < M; block_m += SIZE_M) {
@@ -33,9 +36,12 @@ void mat_mult(
         loop_block_n: for (uint32_t block_n = 0; block_n < N; block_n += SIZE_N) {
         #pragma HLS LOOP_TRIPCOUNT min=1 max=1
         	// Reset C_buf to zero
-        	rst_c_m: for (uint32_t m = 0; m < SIZE_M; m++) {
-        	    rst_c_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+        	rst_c_m: for (uint32_t m = 0; m < SIZE_M; m += 2) {
+        	    rst_c_n: for (uint32_t n = 0; n < SIZE_N; n += 2) {
         	        C_buf[m][n] = 0;
+        	        C_buf[m][n+1] = 0;
+        	        C_buf[m+1][n] = 0;
+        	        C_buf[m+1][n+1] = 0;
         	    }
         	}
 
@@ -58,13 +64,16 @@ void mat_mult(
                 }
 
                 // Compute the product of A and B blocks
-                compute_m: for (uint32_t m = 0; m < SIZE_M; m++) {
+                compute_m: for (uint32_t m = 0; m < SIZE_M; m += 2) {
                 #pragma HLS PIPELINE off
-                    compute_n: for (uint32_t n = 0; n < SIZE_N; n++) {
+                    compute_n: for (uint32_t n = 0; n < SIZE_N; n += 2) {
                     #pragma HLS PIPELINE
                         compute_k: for (uint32_t k = 0; k < SIZE_K; k++) {
                         #pragma HLS UNROLL
                             C_buf[m][n] += A_buf[m][k] * B_buf[k][n];
+                            C_buf[m][n+1] += A_buf[m][k] * B_buf[k][n+1];
+                            C_buf[m+1][n] += A_buf[m+1][k] * B_buf[k][n];
+                            C_buf[m+1][n+1] += A_buf[m+1][k] * B_buf[k][n+1];
                         }
                     }
                 }
