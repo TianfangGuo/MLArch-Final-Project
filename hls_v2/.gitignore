@@ -1,2 +1,3 @@
 dense_gemm
+sparse_gemm_inner
 vitis_hls.log

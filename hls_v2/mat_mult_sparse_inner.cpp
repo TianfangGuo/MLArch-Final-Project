@@ -1,7 +1,6 @@
 #include "mat_mult.h"
 #include <cstdint>
-
-// Assumption: Dimensions are a multiple of the block sizes
+#include "stdio.h"
 
 void mat_mult(
     const uint32_t *A,
@@ -18,9 +17,15 @@ void mat_mult(
     uint32_t B_buf[MAT_DIM][MAT_DIM];
     uint32_t C_buf[MAT_DIM][MAT_DIM];
 
-    // Array partitioning for parallel optimization
-    #pragma HLS array_partition variable=A_buf cyclic factor=8 dim=2
-    #pragma HLS array_partition variable=B_buf cyclic factor=8 dim=1
+    //#pragma HLS array_partition variable=A_buf cyclic factor=8 dim=2
+    //#pragma HLS array_partition variable=B_buf cyclic factor=8 dim=1
+
+    // Create a CSR data structure for A_buf
+    uint16_t A_csr_row_ptr[MAT_DIM + 1];
+    uint8_t A_csr_col_indices[MAT_DIM * MAT_DIM];
+    uint32_t A_csr_values[MAT_DIM * MAT_DIM];
+
+    //#pragma HLS array_partition variable=A_csr_row_ptr cyclic factor=2 dim=1
 
     // Load the matrices
     load_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
@@ -31,29 +36,27 @@ void mat_mult(
     	}
     }
 
+    // Convert A_buf to CSR representation
+    uint16_t i = 0;
+    A_csr_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
+    	A_csr_row_ptr[x] = i;
+    	A_csr_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
+    		if (A_buf[x][y] != 0) {
+    			A_csr_values[i] = A_buf[x][y];
+    			A_csr_col_indices[i] = y;
+    			i += 1;
+    		}
+    	}
+    }
+    A_csr_row_ptr[MAT_DIM] = i;
+
     // Perform the matrix multiplication (inner product)
     compute_m: for (uint8_t m = 0; m < MAT_DIM; m++) {
     	compute_n: for (uint8_t n = 0; n < MAT_DIM; n++) {
     		uint32_t sum = 0;
-
-    		// Parallel optimization
-    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k += PE) {
-            #pragma HLS pipeline
-    			compute_pe: for (uint8_t pe = 0; pe < PE; pe++) {
-                #pragma HLS unroll
-    				sum += A_buf[m][k + pe] * B_buf[k + pe][n];
-    			}
+    		compute_k: for (uint16_t idx = A_csr_row_ptr[m]; idx < A_csr_row_ptr[m+1]; idx++) {
+    			sum += A_csr_values[idx] * B_buf[A_csr_col_indices[idx]][n];
     		}
-
-
-    		// No parallel optimization
-    		/*
-    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k++) {
-            #pragma HLS pipeline off
-    			sum += A_buf[m][k] * B_buf[k][n];
-    		}
-    		*/
-
     		C_buf[m][n] = sum;
     	}
     }
@@ -67,3 +70,4 @@ void mat_mult(
 
 
 }
+
