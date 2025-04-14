@@ -39,7 +39,7 @@ void intersection_unit(
     #pragma HLS ARRAY_PARTITION variable=AB_prefix_sum_4 type=complete
     #pragma HLS ARRAY_PARTITION variable=AB_prefix_sum type=complete
 
-	for (uint8_t i = 0; i < 32; i++) {
+	prefix_sum_1: for (uint8_t i = 0; i < 32; i++) {
     #pragma HLS unroll
 	    if (i == 0) {
 	    	AB_prefix_sum_1[i] = 0;
@@ -85,14 +85,6 @@ void intersection_unit(
 			AB_prefix_sum[i] = (ap_uint<6>)AB_prefix_sum_4[i];
 		}
 	}
-
-	/*
-	printf("AB_prefix_sum:\n");
-	for (int i = 0; i < 32; i++) {
-		printf("%d ", AB_prefix_sum[i].to_uint());
-	}
-	printf("\n");
-	*/
 
 	// Step 3: Shift A_row and B_col so that the matching nonzero indexes are aligned
 	uint32_t A_row_shift_0[32];
@@ -200,13 +192,11 @@ void mat_mult(
     // Load the matrices
     load_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
     	load_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
-    		uint32_t A_val = A[x * MAT_DIM + y];
-    		uint32_t B_val = B[x * MAT_DIM + y];
-    		A_buf[x][y] = A_val;
-    		B_buf[x][y] = B_val;
+    		A_buf[x][y] = A[x * MAT_DIM + y];
+    		B_buf[x][y] = B[x * MAT_DIM + y];
     		C_buf[x][y] = 0;
-    		A_buf_bitvec[x].set_bit(y, A_val != 0);
-    		B_buf_bitvec[y].set_bit(x, B_val != 0);
+    		A_buf_bitvec[x].set_bit(y, A[x * MAT_DIM + y] != 0);
+    		B_buf_bitvec[y].set_bit(x, B[x * MAT_DIM + y] != 0);
     	}
     }
 
@@ -286,6 +276,11 @@ void mat_mult(
     		uint8_t intersect_len[1];
     		uint32_t sum = 0;
 
+            #pragma HLS array_partition variable=A_row complete
+            #pragma HLS array_partition variable=B_col complete
+            #pragma HLS array_partition variable=A_row_shifted complete
+            #pragma HLS array_partition variable=B_col_shifted complete
+
     		// Load a row of A and column of B
     		compute_k_load: for (uint8_t k = 0; k < MAT_DIM; k++) {
             #pragma HLS UNROLL
@@ -297,9 +292,11 @@ void mat_mult(
     		intersection_unit(A_row, B_col, A_buf_bitvec[m], B_buf_bitvec[n], A_row_shifted, B_col_shifted, intersect_len);
 
     		// Perform the dot product
-    		compute_k: for (uint8_t k = 0; k < intersect_len[0]; k++) {
-            #pragma HLS unroll factor=8
-    			sum += A_row_shifted[k] * B_col_shifted[k];
+    		compute_k: for (uint8_t k = 0; k < intersect_len[0]; k += PE) {
+    			compute_pe: for (uint8_t pe = 0; pe < PE; pe++) {
+                #pragma HLS unroll
+    				sum += A_row_shifted[k + pe] * B_col_shifted[k + pe];
+    			}
     		}
 
     		// Store the sum

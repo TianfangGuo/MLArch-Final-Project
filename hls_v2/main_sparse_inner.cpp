@@ -17,15 +17,31 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Initialize input data
+    /*
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
         //A[i] = (i % 5) == 0;
         //A[i] = i % 10;
-    	A[i] = (i == 0);
+    	//A[i] = (i == 0);
+    	A[i] = 1;
     }
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
     	//B[i] = (i % 5) == 0;
         //B[i] = (i + 1) % 10;
-    	B[i] = (i == 0);
+    	//B[i] = (i == 0);
+    	B[i] = 1;
+    }
+    */
+
+    for (int i = 0; i < MAT_DIM; i++) {
+    	for (int j = 0; j < MAT_DIM; j++) {
+    		if (j < MAT_DIM / 2) {
+    		    A[i * MAT_DIM + j] = 1;
+    		    B[j * MAT_DIM + i] = 1;
+    		} else {
+    			A[i * MAT_DIM + j] = 0;
+    			B[j * MAT_DIM + i] = 0;
+    		}
+    	}
     }
 
     // Produce golden data for matrix multiplication
