@@ -17,21 +17,20 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Initialize input data
-    /*
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        //A[i] = (i % 5) == 0;
+        A[i] = (i % 20) == 0;
         //A[i] = i % 10;
     	//A[i] = (i == 0);
-    	A[i] = 1;
+    	//A[i] = 1;
     }
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-    	//B[i] = (i % 5) == 0;
+    	B[i] = (i % 20) == 0;
         //B[i] = (i + 1) % 10;
     	//B[i] = (i == 0);
-    	B[i] = 1;
+    	//B[i] = 1;
     }
-    */
 
+    /*
     for (int i = 0; i < MAT_DIM; i++) {
     	for (int j = 0; j < MAT_DIM; j++) {
     		if (j < MAT_DIM / 2) {
@@ -43,6 +42,7 @@ int main(int argc, char **argv) {
     		}
     	}
     }
+    */
 
     // Produce golden data for matrix multiplication
     for (int i = 0; i < MAT_DIM; i++) {
@@ -58,17 +58,21 @@ int main(int argc, char **argv) {
 
     // Compare the results
     bool match = true;
-    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        if (C_hw[i] != C_sw[i]) {
-            std::cout << "Mismatch at index " << i << ": HW = " << (uint32_t)C_hw[i] << ", SW = " << (uint32_t)C_sw[i] << std::endl;
-            match = false;
-        }
+    for (int i = 0; i < MAT_DIM; i++) {
+    	for (int j = 0; j < MAT_DIM; j++) {
+			if (C_hw[i * MAT_DIM + j] != C_sw[i * MAT_DIM + j]) {
+				std::cout << "Mismatch at index (" << i << ", " << j << "): HW = " << (uint32_t)C_hw[i * MAT_DIM + j] << ", SW = " << (uint32_t)C_sw[i * MAT_DIM + j] << std::endl;
+				match = false;
+			}
+    	}
     }
 
     if (match) {
         std::cout << "All results match!" << std::endl;
+        return 0;
     } else {
         std::cout << "Results do not match!" << std::endl;
+        return 1;
     }
     return 0;
 }

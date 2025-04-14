@@ -92,14 +92,13 @@ void intersection_unit(
 	uint32_t A_row_shift_2[32];
 	uint32_t A_row_shift_3[32];
 	uint32_t A_row_shift_4[32];
-	//uint32_t A_row_shift[32];
 
 	uint32_t B_col_shift_0[32];
 	uint32_t B_col_shift_1[32];
 	uint32_t B_col_shift_2[32];
 	uint32_t B_col_shift_3[32];
 	uint32_t B_col_shift_4[32];
-	//uint32_t B_col_shift[32];
+
 
 	#pragma HLS ARRAY_PARTITION variable=A_row_shift_0 type=complete
 	#pragma HLS ARRAY_PARTITION variable=A_row_shift_1 type=complete
@@ -155,14 +154,31 @@ void intersection_unit(
 	for (uint8_t i = 0; i < 32; i++) {
 	#pragma HLS unroll
 		if (i < 16) {
-			A_row_shift[i] = (AB_prefix_sum[i+16][4]) ? A_row_shift_3[i+16] : A_row_shift_3[i];
-			B_col_shift[i] = (AB_prefix_sum[i+16][4]) ? B_col_shift_3[i+16] : B_col_shift_3[i];
+			A_row_shift_4[i] = (AB_prefix_sum[i+16][4]) ? A_row_shift_3[i+16] : A_row_shift_3[i];
+			B_col_shift_4[i] = (AB_prefix_sum[i+16][4]) ? B_col_shift_3[i+16] : B_col_shift_3[i];
 		} else {
-			A_row_shift[i] = A_row_shift_3[i];
-			B_col_shift[i] = B_col_shift_3[i];
+			A_row_shift_4[i] = A_row_shift_3[i];
+			B_col_shift_4[i] = B_col_shift_3[i];
 		}
 	}
 
+	// Step 4: Mask the shifted values. Preserve only the values that matter after shifting
+	ap_uint<32> final_mask;
+	for (uint8_t i = 0; i < 32; i++) {
+    #pragma HLS unroll
+		final_mask.set_bit(i, len > i);
+	}
+
+	for (uint8_t i = 0; i < 32; i++) {
+    #pragma HLS unroll
+		if (final_mask[i]) {
+			A_row_shift[i] = A_row_shift_4[i];
+			B_col_shift[i] = B_col_shift_4[i];
+		} else {
+			A_row_shift[i] = 0;
+			B_col_shift[i] = 0;
+		}
+	}
 }
 
 
@@ -200,75 +216,28 @@ void mat_mult(
     	}
     }
 
-    /*
-    printf("MATRIX A:\n");
-    for (uint8_t x = 0; x < MAT_DIM; x++) {
-    	for (uint8_t y = 0; y < MAT_DIM; y++) {
-    		printf("%d ", A_buf[x][y]);
+    // With the bitvectors, track only the rows with nonzeros in A_buf and columns with nonzeros in B_buf
+    uint8_t nonzero_rows_A[MAT_DIM];
+    uint8_t nonzero_cols_B[MAT_DIM];
+    uint8_t nonzero_len_A = 0;
+    uint8_t nonzero_len_B = 0;
+
+    get_nonzeros: for (uint8_t k = 0; k < MAT_DIM; k++) {
+    	if (A_buf_bitvec[k]) {
+    		nonzero_rows_A[nonzero_len_A++] = k;
     	}
-    	printf("\n");
+    	if (B_buf_bitvec[k]) {
+    		nonzero_cols_B[nonzero_len_B++] = k;
+    	}
     }
 
-    printf("BIT VECTOR A:\n");
-    for (uint8_t x = 0; x < MAT_DIM; x++) {
-       	for (uint8_t y = 0; y < MAT_DIM; y++) {
-       		printf("%d ", A_buf_bitvec[x].range(y, y).to_uint());
-      	}
-     	printf("\n");
-    }
-    */
-
-    /*
-    uint32_t A_row[MAT_DIM];
-    uint32_t B_col[MAT_DIM];
-    uint32_t A_res[MAT_DIM];
-    uint32_t B_res[MAT_DIM];
-    uint8_t len_res[1];
-    for (int i = 0; i < MAT_DIM; i++) {
-    	A_row[i] = A_buf[0][i];
-    	B_col[i] = B_buf[i][0];
-    }
-
-    intersection_unit(A_row, B_col, A_buf_bitvec[0], B_buf_bitvec[0], A_res, B_res, len_res);
-
-    printf("Original A and B:\n");
-    for (int i = 0; i < MAT_DIM; i++) {
-    	printf("%d ", A_row[i]);
-    }
-    printf("\n");
-    for (int i = 0; i < MAT_DIM; i++) {
-        printf("%d ", B_col[i]);
-    }
-    printf("\n");
-
-    printf("New A and B:\n");
-    for (int i = 0; i < MAT_DIM; i++) {
-    	printf("%d ", A_res[i]);
-    }
-    printf("\n");
-    for (int i = 0; i < MAT_DIM; i++) {
-        printf("%d ", B_res[i]);
-    }
-    printf("\n");
-    printf("Length: %d\n", len_res[0]);
-	*/
 
     // Perform the matrix multiplication (inner product)
-    compute_m: for (uint8_t m = 0; m < MAT_DIM; m++) {
-    	compute_n: for (uint8_t n = 0; n < MAT_DIM; n++) {
+    compute_m: for (uint8_t i = 0; i < nonzero_len_A; i++) {
+    	compute_n: for (uint8_t j = 0; j < nonzero_len_B; j++) {
 
-    		/*
-    		uint32_t sum = 0;
-    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k += PE) {
-    		#pragma HLS pipeline
-    		    compute_pe: for (uint8_t pe = 0; pe < PE; pe++) {
-    		    #pragma HLS unroll
-    		        sum += A_buf[m][k + pe] * B_buf[k + pe][n];
-    		    }
-    		}
-    		C_buf[m][n] = sum;
-			*/
-
+    		uint8_t m = nonzero_rows_A[i];
+    		uint8_t n = nonzero_cols_B[j];
     		uint32_t A_row[MAT_DIM];
     		uint32_t B_col[MAT_DIM];
     		uint32_t A_row_shifted[MAT_DIM];
