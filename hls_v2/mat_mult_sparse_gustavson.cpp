@@ -113,7 +113,7 @@ void mat_mult(
 
     // Stream for B
     hls::stream<uint32_t> B_tmp_stream[K];
-    #pragma HLS STREAM variable=B_tmp_stream depth=MAT_DIM*2
+    #pragma HLS STREAM variable=B_tmp_stream depth=32
     #pragma HLS ARRAY_PARTITION variable=B_tmp_stream complete dim=1
 
     // ✅ Dataflow region
