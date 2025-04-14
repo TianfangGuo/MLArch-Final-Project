@@ -18,12 +18,14 @@ int main(int argc, char **argv) {
 
     // Initialize input data
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        A[i] = i == 0;
+        //A[i] = (i % 5) == 0;
         //A[i] = i % 10;
+    	A[i] = (i == 0);
     }
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-    	B[i] = i == 0;
+    	//B[i] = (i % 5) == 0;
         //B[i] = (i + 1) % 10;
+    	B[i] = (i == 0);
     }
 
     // Produce golden data for matrix multiplication
