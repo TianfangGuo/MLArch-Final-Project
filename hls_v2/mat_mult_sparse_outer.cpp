@@ -97,18 +97,22 @@ void mat_mult(
 		uint32_t A_end = A_col_ptr_buf[k + 1];
 		uint32_t B_start = B_row_ptr_buf[k];
 		uint32_t B_end = B_row_ptr_buf[k + 1];
+		bool A_nonzero = A_end != A_start;
+		bool B_nonzero = B_end != B_start;
 
-		compute_i: for (uint32_t i = A_start; i < A_end; i++) {
-        #pragma HLS pipeline
-			uint32_t m = A_row_ind_buf[i];
-			uint32_t a_val = A_val_buf[i];
+		if (A_nonzero && B_nonzero) {
+			compute_i: for (uint32_t i = A_start; i < A_end; i++) {
+			#pragma HLS pipeline
+				uint32_t m = A_row_ind_buf[i];
+				uint32_t a_val = A_val_buf[i];
 
-			compute_j: for (uint32_t j = B_start; j < B_end; j++) {
-				uint32_t n = B_col_ind_buf[j];
-				uint32_t b_val = B_val_buf[j];
+				compute_j: for (uint32_t j = B_start; j < B_end; j++) {
+					uint32_t n = B_col_ind_buf[j];
+					uint32_t b_val = B_val_buf[j];
 
-				// Temporary storage for the result
-				C_temp[m][n] += a_val * b_val;
+					// Temporary storage for the result
+					C_temp[m][n] += a_val * b_val;
+				}
 			}
 		}
 	}
