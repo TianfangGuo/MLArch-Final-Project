@@ -19,25 +19,17 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Initialize input data
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        //A[i] = (i % 5) == 0;
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+        A[i] = (i % 20) == 0;
         //A[i] = i % 10;
     	//A[i] = (i == 0);
-    //}
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-    	//B[i] = (i % 5) == 0;
+    	//A[i] = 1;
+    }
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+    	B[i] = (i % 20) == 0;
         //B[i] = (i + 1) % 10;
     	//B[i] = (i == 0);
-    //}
-
-    float target_density = 0.1f; // 10% non-zeros
-    float prob_nonzero = target_density;
-
-    srand(time(0)); // seed random number generator
-
-    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        A[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
-        B[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
+    	//B[i] = 1;
     }
 
     /*
