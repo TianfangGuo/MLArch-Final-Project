@@ -84,12 +84,10 @@ void mat_mult(
 		uint16_t C_partials = (uint16_t)A_len * (uint16_t)B_len;
 
 		compute_i: for (uint8_t i = A_start; i < A_end; i++) {
-		#pragma HLS pipeline
 			uint8_t m = A_row_ind_buf[i];
 			uint32_t a_val = A_val_buf[i];
 
 			compute_j: for (uint8_t j = B_start; j < B_end; j++) {
-			#pragma HLS pipeline
 				uint8_t n = B_col_ind_buf[j];
 				uint32_t b_val = B_val_buf[j];
 
