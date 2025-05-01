@@ -61,6 +61,7 @@ void mat_mult_trgt(
                     loop_n0: for (int n0 = 0; n0 < N0; n0++) {
                         #pragma HLS PIPELINE II=1
                         for (int k = 0; k < K; k++) {
+                            #pragma HLS unroll factor=8
                             C_tile[m1][m0][n0] += A_buf[m1][m0][k] * B_tmp_t[n0][k];
                         }
                     }

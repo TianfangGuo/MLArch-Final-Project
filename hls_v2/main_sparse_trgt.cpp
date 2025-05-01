@@ -17,14 +17,38 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Random sparse initialization
-    float target_density = 0.1f;
+    float A_density = 0.1f;
+    float B_density = 0.1f;
+
+    std::cout << "Initializing A with density " << A_density * 100 << "%\n";
+    std::cout << "Initializing B with density " << B_density * 100 << "%\n";
+
     srand(time(0));
     for (int i = 0; i < MAT_A_SIZE; i++) {
-        A[i] = (rand() / (float)RAND_MAX) < target_density ? (i % 10 + 1) : 0;
+        A[i] = (rand() / (float)RAND_MAX) < A_density ? (i % 10 + 1) : 0;
     }
     for (int i = 0; i < MAT_B_SIZE; i++) {
-        B[i] = (rand() / (float)RAND_MAX) < target_density ? (i % 10 + 1) : 0;
+        B[i] = (rand() / (float)RAND_MAX) < B_density ? (i % 10 + 1) : 0;
     }
+
+    // Actual sparsity
+    int A_nnz = 0;
+    int B_nnz = 0;
+    for (int i = 0; i < MAT_A_SIZE; i++) {
+        if (A[i] != 0) A_nnz++;
+    }
+    for (int i = 0; i < MAT_B_SIZE; i++) {
+        if (B[i] != 0) B_nnz++;
+    }
+
+    float A_actual_density = A_nnz / (float)MAT_A_SIZE;
+    float B_actual_density = B_nnz / (float)MAT_B_SIZE;
+
+    std::cout << "A actual density: " << A_actual_density * 100 << "% ("
+            << (100.0f - A_actual_density * 100) << "% sparse)" << std::endl;
+    std::cout << "B actual density: " << B_actual_density * 100 << "% ("
+            << (100.0f - B_actual_density * 100) << "% sparse)" << std::endl;
+
 
     // Golden reference: same loop structure as TrGT
     for (int n1 = 0; n1 < N1; n1++) {

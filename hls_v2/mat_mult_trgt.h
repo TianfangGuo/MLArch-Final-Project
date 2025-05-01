@@ -9,7 +9,7 @@
 #define M1 2
 #define M0 8
 #define K 32
-#define N1 2
+#define N1 4
 #define N0 8
 
 // === Derived constants ===
