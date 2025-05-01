@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Random sparse initialization
-    float A_density = 0.1f;
-    float B_density = 0.1f;
+    float A_density = 0.03f;
+    float B_density = 0.03f;
 
     std::cout << "Initializing A with density " << A_density * 100 << "%\n";
     std::cout << "Initializing B with density " << B_density * 100 << "%\n";
