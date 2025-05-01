@@ -19,17 +19,18 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Initialize input data
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        //A[i] = (i % 5) == 0;
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+        A[i] = (i % 10) == 0;
         //A[i] = i % 10;
     	//A[i] = (i == 0);
-    //}
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-    	//B[i] = (i % 5) == 0;
+    }
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+        B[i] = (i % 10) == 0;
         //B[i] = (i + 1) % 10;
     	//B[i] = (i == 0);
-    //}
+    }
 
+    /*
     float target_density = 0.1f; // 10% non-zeros
     float prob_nonzero = target_density;
 
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
         A[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
         B[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
     }
+    */
 
     /*
     for (int i = 0; i < MAT_DIM; i++) {
@@ -64,15 +66,15 @@ int main(int argc, char **argv) {
     }
 
     // Convert the input matrices to CSR/CSC format
-    std::vector<uint8_t>  A_row_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint8_t>  A_col_ptr(MAT_DIM);
-    std::vector<uint32_t> A_val(MAT_DIM * MAT_DIM);
-    uint16_t              A_nnz = 0;
+    std::vector<uint32_t>  A_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  A_col_ptr(MAT_DIM);
+    std::vector<uint32_t>  A_val(MAT_DIM * MAT_DIM);
+    uint32_t               A_nnz = 0;
 
-    std::vector<uint8_t>  B_row_ptr(MAT_DIM);
-    std::vector<uint8_t>  B_col_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint32_t> B_val(MAT_DIM * MAT_DIM);
-    uint16_t              B_nnz = 0;
+    std::vector<uint32_t>  B_row_ptr(MAT_DIM);
+    std::vector<uint32_t>  B_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  B_val(MAT_DIM * MAT_DIM);
+    uint32_t               B_nnz = 0;
 
     for (int k = 0; k < MAT_DIM; k++) {
         for (int m = 0; m < MAT_DIM; m++) {
@@ -97,10 +99,10 @@ int main(int argc, char **argv) {
     }
 
     // Result matrix in COO format
-    std::vector<uint8_t>  C_row_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint8_t>  C_col_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint32_t> C_val(MAT_DIM * MAT_DIM);
-    uint16_t              C_nnz = 0;
+    std::vector<uint32_t>  C_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  C_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  C_val(MAT_DIM * MAT_DIM);
+    uint32_t               C_nnz = 0;
 
     // Obtain the hardware results (C_hw) from the accelerator
     //mat_mult(A.data(), B.data(), C_hw.data());
@@ -121,7 +123,7 @@ int main(int argc, char **argv) {
 
     // Convert the result matrix back to dense format
     for (int i = 0; i < C_nnz; i++) {
-        C_hw[(uint16_t)C_row_ind[i] * MAT_DIM + (uint16_t)C_col_ind[i]] = C_val[i];
+        C_hw[C_row_ind[i] * MAT_DIM + C_col_ind[i]] = C_val[i];
     }
 
     // Compare the results
