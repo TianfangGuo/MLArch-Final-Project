@@ -63,8 +63,66 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Convert the input matrices to CSR/CSC format
+    std::vector<uint8_t>  A_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint8_t>  A_col_ptr(MAT_DIM);
+    std::vector<uint32_t> A_val(MAT_DIM * MAT_DIM);
+    uint16_t              A_nnz = 0;
+
+    std::vector<uint8_t>  B_row_ptr(MAT_DIM);
+    std::vector<uint8_t>  B_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> B_val(MAT_DIM * MAT_DIM);
+    uint16_t              B_nnz = 0;
+
+    for (int k = 0; k < MAT_DIM; k++) {
+        for (int m = 0; m < MAT_DIM; m++) {
+            if (A[m * MAT_DIM + k] != 0) {
+                A_row_ind[A_nnz] = m;
+                A_val[A_nnz] = A[m * MAT_DIM + k];
+                A_nnz++;
+            }
+        }
+        A_col_ptr[k] = A_nnz;
+    }
+
+    for (int k = 0; k < MAT_DIM; k++) {
+        for (int n = 0; n < MAT_DIM; n++) {
+            if (B[k * MAT_DIM + n] != 0) {
+                B_col_ind[B_nnz] = n;
+                B_val[B_nnz] = B[k * MAT_DIM + n];
+                B_nnz++;
+            }
+        }
+        B_row_ptr[k] = B_nnz;
+    }
+
+    // Result matrix in COO format
+    std::vector<uint8_t>  C_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint8_t>  C_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> C_val(MAT_DIM * MAT_DIM);
+    uint16_t              C_nnz = 0;
+
     // Obtain the hardware results (C_hw) from the accelerator
-    mat_mult(A.data(), B.data(), C_hw.data());
+    //mat_mult(A.data(), B.data(), C_hw.data());
+    mat_mult(
+        A_row_ind.data(),
+        A_col_ptr.data(),
+        A_val.data(), 
+        A_nnz, 
+        B_row_ptr.data(), 
+        B_col_ind.data(), 
+        B_val.data(), 
+        B_nnz, 
+        C_row_ind.data(),
+        C_col_ind.data(),
+        C_val.data(),
+        &C_nnz
+    );
+
+    // Convert the result matrix back to dense format
+    for (int i = 0; i < C_nnz; i++) {
+        C_hw[(uint16_t)C_row_ind[i] * MAT_DIM + (uint16_t)C_col_ind[i]] = C_val[i];
+    }
 
     // Compare the results
     bool match = true;
