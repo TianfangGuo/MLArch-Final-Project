@@ -1,4 +1,5 @@
 dense_gemm
 sparse_gemm_inner
 sparse_gemm_gustavson
+sparse_gemm_outer
 vitis_hls.log
