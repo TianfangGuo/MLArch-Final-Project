@@ -38,17 +38,27 @@ void mat_mult(
 	#pragma HLS array_partition variable=B_val_buf block factor=8 dim=1
 
 	// Initialize the matrices
-	load_A_m: for (uint32_t m = 0; m < A_m_dim; m++) {
-		load_A_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
+	load_A_ind_m: for (uint32_t m = 0; m < A_m_dim; m++) {
+		load_A_ind_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
 			#pragma HLS pipeline
 			A_m_ind_buf[m][k] = A_m_ind[m * MAT_DIM + k];
+		}
+	}
+	load_B_ind_n: for (uint32_t n = 0; n < B_n_dim; n++) {
+		load_B_ind_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
+			#pragma HLS pipeline
+			B_n_ind_buf[k][n] = B_n_ind[n * MAT_DIM + k];
+		}
+	}
+	load_A_val_m: for (uint32_t m = 0; m < A_m_dim; m++) {
+		load_A_val_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
+			#pragma HLS pipeline
 			A_val_buf[m][k] = A_val[m * MAT_DIM + k];
 		}
 	}
-	load_B_n: for (uint32_t n = 0; n < B_n_dim; n++) {
-		load_B_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
+	load_B_val_n: for (uint32_t n = 0; n < B_n_dim; n++) {
+		load_B_val_k: for (uint32_t k = 0; k < MAT_DIM; k++) {
 			#pragma HLS pipeline
-			B_n_ind_buf[k][n] = B_n_ind[n * MAT_DIM + k];
 			B_val_buf[k][n] = B_val[n * MAT_DIM + k];
 		}
 	}
