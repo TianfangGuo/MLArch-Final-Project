@@ -13,6 +13,7 @@ void mat_mult(
     #pragma HLS INTERFACE m_axi port=C offset=slave depth=1024 bundle=gmem0
     #pragma HLS INTERFACE s_axilite port=return bundle=control
 
+	/*
     // Create buffers for input and output matrices
     uint32_t A_buf[MAT_DIM][MAT_DIM];
     uint32_t B_buf[MAT_DIM][MAT_DIM];
@@ -45,18 +46,11 @@ void mat_mult(
     			}
     		}
 
-
-    		// No parallel optimization
-    		/*
-    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k++) {
-            #pragma HLS pipeline off
-    			sum += A_buf[m][k] * B_buf[k][n];
-    		}
-    		*/
-
     		C_buf[m][n] = sum;
     	}
     }
+
+
 
     // Store the matrix
     store_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
@@ -64,6 +58,52 @@ void mat_mult(
     		C[x * MAT_DIM + y] = C_buf[x][y];
     	}
     }
+    */
 
+	// Create buffers for input and output matrices
+	uint32_t A_buf[MAT_DIM][MAT_DIM];
+	uint32_t B_buf[MAT_DIM][MAT_DIM];
+	uint32_t C_buf[8][MAT_DIM][MAT_DIM];
+
+	// Array partitioning for parallel optimization
+	#pragma HLS array_partition variable=A_buf block factor=8 dim=2
+	#pragma HLS array_partition variable=B_buf block factor=8 dim=1
+    #pragma HLS array_partition variable=C_buf complete dim=1
+
+	// Load the matrices
+	load_x: for (uint32_t x = 0; x < MAT_DIM; x++) {
+	    load_y: for (uint32_t y = 0; y < MAT_DIM; y++) {
+	    	A_buf[x][y] = A[x * MAT_DIM + y];
+	        B_buf[x][y] = B[x * MAT_DIM + y];
+	        clear_c: for (uint32_t k = 0; k < 8; k++) {
+            #pragma HLS UNROLL
+	        	C_buf[k][x][y] = 0;
+	        }
+	    }
+	}
+
+	// Perform the matrix multiplication (outer product)
+	compute_k: for (uint32_t k = 0; k < 4; k++) {
+		compute_m: for (uint32_t m = 0; m < MAT_DIM; m++) {
+			compute_n: for (uint32_t n = 0; n < MAT_DIM; n++) {
+            #pragma HLS pipeline
+				compute_k_block: for (uint32_t k_block = 0; k_block < 8; k_block++) {
+                #pragma HLS UNROLL
+					C_buf[k_block][m][n] += A_buf[m][k_block*4 + k] * B_buf[k_block*4 + k][n];
+				}
+			}
+		}
+	}
+
+	// Store the matrix
+	store_m: for (uint32_t m = 0; m < MAT_DIM; m++) {
+		store_n: for (uint32_t n = 0; n < MAT_DIM; n++) {
+			uint32_t sum = 0;
+			store_k: for (uint32_t k = 0; k < 8; k++) {
+				sum += C_buf[k][m][n];
+			}
+			C[m * MAT_DIM + n] = sum;
+		}
+	}
 
 }
