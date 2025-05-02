@@ -8,14 +8,12 @@
 #define PE 8
 
 void mat_mult(
-    const uint32_t*  A_row_ind,
-    const uint32_t*  A_col_ptr,
+    const uint32_t*  A_m_ind,
     const uint32_t*  A_val,
-    const uint32_t   A_nnz,
-    const uint32_t*  B_row_ptr,
-    const uint32_t*  B_col_ind,
+    const uint32_t   A_m_dim,
+    const uint32_t*  B_n_ind,
     const uint32_t*  B_val,
-    const uint32_t   B_nnz,
+    const uint32_t   B_n_dim,
 	uint32_t*        C
 );
 

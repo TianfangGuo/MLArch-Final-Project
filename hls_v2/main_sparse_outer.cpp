@@ -66,6 +66,7 @@ int main(int argc, char **argv) {
     }
 
     // Convert the input matrices to CSR/CSC format
+    /*
     std::vector<uint32_t>  A_row_ind(MAT_DIM * MAT_DIM);
     std::vector<uint32_t>  A_col_ptr(MAT_DIM);
     std::vector<uint32_t>  A_val(MAT_DIM * MAT_DIM);
@@ -97,19 +98,87 @@ int main(int argc, char **argv) {
         }
         B_row_ptr[k] = B_nnz;
     }
+    */
 
+    // Convert the input matrices to COO format
+    /*
+    std::vector<uint32_t>  A_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  A_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  A_val(MAT_DIM * MAT_DIM);
+    uint32_t               A_nnz = 0;
+    std::vector<uint32_t>  B_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  B_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t>  B_val(MAT_DIM * MAT_DIM);
+    uint32_t               B_nnz = 0;
+
+    for (int k = 0; k < MAT_DIM; k++) {
+        for (int i = 0; i < MAT_DIM; i++) {
+            if (A[i * MAT_DIM + k] != 0) {
+                A_row_ind[A_nnz] = i;
+                A_col_ind[A_nnz] = k;
+                A_val[A_nnz] = A[i * MAT_DIM + k];
+                A_nnz++;
+            }
+            if (B[k * MAT_DIM + i] != 0) {
+                B_row_ind[B_nnz] = k;
+                B_col_ind[B_nnz] = i;
+                B_val[B_nnz] = B[k * MAT_DIM + i];
+                B_nnz++;
+            }
+        }
+    }
+    */
+
+    // Convert the input matrices to ELLPACK format
+    std::vector<uint32_t> A_val(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> A_m_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> B_val(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> B_n_ind(MAT_DIM * MAT_DIM);
+    uint32_t A_m_dim = 0;
+    uint32_t B_n_dim = 0;
+
+    std::fill(A_val.begin(), A_val.end(), 0);
+    std::fill(A_m_ind.begin(), A_m_ind.end(), 0);
+    std::fill(B_val.begin(), B_val.end(), 0);
+    std::fill(B_n_ind.begin(), B_n_ind.end(), 0);
+
+    for (int k = 0; k < MAT_DIM; k++) {
+        int curr_A_m_dim = 0;
+        for (int m = 0; m < MAT_DIM; m++) {
+            if (A[m * MAT_DIM + k] != 0) {
+                A_val[curr_A_m_dim * MAT_DIM + k] = A[m * MAT_DIM + k];
+                A_m_ind[curr_A_m_dim * MAT_DIM + k] = m;
+                curr_A_m_dim++;
+            }
+        }
+        if (curr_A_m_dim > A_m_dim) {
+            A_m_dim = curr_A_m_dim;
+        }
+    }
+
+    for (int k = 0; k < MAT_DIM; k++) {
+        int curr_B_n_dim = 0;
+        for (int n = 0; n < MAT_DIM; n++) {
+            if (B[k * MAT_DIM + n] != 0) {
+                B_val[curr_B_n_dim * MAT_DIM + k] = B[k * MAT_DIM + n];
+                B_n_ind[curr_B_n_dim * MAT_DIM + k] = n;
+                curr_B_n_dim++;
+            }
+        }
+        if (curr_B_n_dim > B_n_dim) {
+            B_n_dim = curr_B_n_dim;
+        }
+    }
 
     // Obtain the hardware results (C_hw) from the accelerator
     //mat_mult(A.data(), B.data(), C_hw.data());
     mat_mult(
-        A_row_ind.data(),
-        A_col_ptr.data(),
+        A_m_ind.data(),
         A_val.data(), 
-        A_nnz, 
-        B_row_ptr.data(), 
-        B_col_ind.data(), 
+        A_m_dim, 
+        B_n_ind.data(), 
         B_val.data(), 
-        B_nnz, 
+        B_n_dim, 
         C_hw.data()
     );
 
