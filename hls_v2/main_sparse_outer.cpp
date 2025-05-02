@@ -20,18 +20,20 @@ int main(int argc, char **argv) {
 
     // Initialize input data
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        A[i] = (i % 10) == 0;
-        //A[i] = i % 10;
+        //A[i] = (i % 10) == 0;
+        //A[i] = i % 20;
     	//A[i] = (i == 0);
+    	A[i] = ((i % 10) < 9) ? (i % 10) : 0;
     }
     for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        B[i] = (i % 10) == 0;
-        //B[i] = (i + 1) % 10;
+        //B[i] = (i % 10) == 0;
+        //B[i] = (i + 1) % 20;
     	//B[i] = (i == 0);
+    	B[i] = ((i % 20) < 1) ? ((i + 1) % 10) : 0;
     }
 
     /*
-    float target_density = 0.1f; // 10% non-zeros
+    float target_density = 0.97f; // 10% non-zeros
     float prob_nonzero = target_density;
 
     srand(time(0)); // seed random number generator
@@ -41,6 +43,7 @@ int main(int argc, char **argv) {
         B[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
     }
     */
+
 
     /*
     for (int i = 0; i < MAT_DIM; i++) {
@@ -55,6 +58,7 @@ int main(int argc, char **argv) {
     	}
     }
     */
+
 
     // Produce golden data for matrix multiplication
     for (int i = 0; i < MAT_DIM; i++) {
