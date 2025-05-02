@@ -13,7 +13,8 @@ void mat_mult(
     #pragma HLS INTERFACE m_axi port=C offset=slave depth=1024 bundle=gmem0
     #pragma HLS INTERFACE s_axilite port=return bundle=control
 
-	/*
+
+	// Inner version
     // Create buffers for input and output matrices
     uint32_t A_buf[MAT_DIM][MAT_DIM];
     uint32_t B_buf[MAT_DIM][MAT_DIM];
@@ -35,21 +36,18 @@ void mat_mult(
     // Perform the matrix multiplication (inner product)
     compute_m: for (uint8_t m = 0; m < MAT_DIM; m++) {
     	compute_n: for (uint8_t n = 0; n < MAT_DIM; n++) {
+        #pragma HLS allocation operation instances=mul limit=8
+        #pragma HLS pipeline
     		uint32_t sum = 0;
 
-    		// Parallel optimization
-    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k += PE) {
-            #pragma HLS pipeline
-    			compute_pe: for (uint8_t pe = 0; pe < PE; pe++) {
-                #pragma HLS unroll
-    				sum += A_buf[m][k + pe] * B_buf[k + pe][n];
-    			}
+    		compute_k: for (uint8_t k = 0; k < MAT_DIM; k++) {
+            #pragma HLS unroll factor=8 skip_exit_check
+    			sum += A_buf[m][k] * B_buf[k][n];
     		}
 
     		C_buf[m][n] = sum;
     	}
     }
-
 
 
     // Store the matrix
@@ -58,8 +56,10 @@ void mat_mult(
     		C[x * MAT_DIM + y] = C_buf[x][y];
     	}
     }
-    */
 
+
+    // Outer version
+	/*
 	// Create buffers for input and output matrices
 	uint32_t A_buf[MAT_DIM][MAT_DIM];
 	uint32_t B_buf[MAT_DIM][MAT_DIM];
@@ -105,5 +105,5 @@ void mat_mult(
 			C[m * MAT_DIM + n] = sum;
 		}
 	}
-
+	*/
 }
