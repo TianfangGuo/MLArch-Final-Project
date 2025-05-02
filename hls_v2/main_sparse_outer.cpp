@@ -98,11 +98,6 @@ int main(int argc, char **argv) {
         B_row_ptr[k] = B_nnz;
     }
 
-    // Result matrix in COO format
-    std::vector<uint32_t>  C_row_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint32_t>  C_col_ind(MAT_DIM * MAT_DIM);
-    std::vector<uint32_t>  C_val(MAT_DIM * MAT_DIM);
-    uint32_t               C_nnz = 0;
 
     // Obtain the hardware results (C_hw) from the accelerator
     //mat_mult(A.data(), B.data(), C_hw.data());
@@ -115,16 +110,8 @@ int main(int argc, char **argv) {
         B_col_ind.data(), 
         B_val.data(), 
         B_nnz, 
-        C_row_ind.data(),
-        C_col_ind.data(),
-        C_val.data(),
-        &C_nnz
+        C_hw.data()
     );
-
-    // Convert the result matrix back to dense format
-    for (int i = 0; i < C_nnz; i++) {
-        C_hw[C_row_ind[i] * MAT_DIM + C_col_ind[i]] = C_val[i];
-    }
 
     // Compare the results
     bool match = true;

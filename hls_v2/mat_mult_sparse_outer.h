@@ -16,10 +16,7 @@ void mat_mult(
     const uint32_t*  B_col_ind,
     const uint32_t*  B_val,
     const uint32_t   B_nnz,
-    uint32_t*        C_row_ind,
-    uint32_t*        C_col_ind,
-    uint32_t*        C_val,
-    uint32_t*        C_nnz
+	uint32_t*        C
 );
 
 #endif
