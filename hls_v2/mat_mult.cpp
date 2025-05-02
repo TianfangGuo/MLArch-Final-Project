@@ -14,6 +14,7 @@ void mat_mult(
     #pragma HLS INTERFACE s_axilite port=return bundle=control
 
 
+	/*
 	// Inner version
     // Create buffers for input and output matrices
     uint32_t A_buf[MAT_DIM][MAT_DIM];
@@ -56,7 +57,47 @@ void mat_mult(
     		C[x * MAT_DIM + y] = C_buf[x][y];
     	}
     }
+    */
 
+
+    // Gustavson version
+	// Create buffers for input and output matrices
+	uint32_t A_buf[MAT_DIM][MAT_DIM];
+	uint32_t B_buf[MAT_DIM][MAT_DIM];
+	uint32_t C_buf[MAT_DIM][MAT_DIM];
+
+	// Array partitioning for parallel optimization
+	#pragma HLS array_partition variable=C_buf cyclic factor=8 dim=2
+	#pragma HLS array_partition variable=B_buf cyclic factor=8 dim=2
+
+	// Load the matrices
+	load_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
+	 	load_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
+	   		A_buf[x][y] = A[x * MAT_DIM + y];
+	   		B_buf[x][y] = B[x * MAT_DIM + y];
+	   		C_buf[x][y] = 0;
+	   	}
+	}
+
+
+	compute_m: for (uint8_t m = 0; m < MAT_DIM; m++) {
+		compute_k: for (uint8_t k = 0; k < MAT_DIM; k++) {
+        #pragma HLS allocation operation instances=mul limit=8
+	    #pragma HLS pipeline
+			uint32_t A_val = A_buf[m][k];
+			compute_n: for (uint8_t n = 0; n < MAT_DIM; n++) {
+            #pragma HLS unroll factor=8 skip_exit_check
+				C_buf[m][n] += A_val * B_buf[k][n];
+			}
+		}
+	}
+
+	// Store the matrix
+	store_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
+	    store_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
+	    	C[x * MAT_DIM + y] = C_buf[x][y];
+	    }
+	}
 
     // Outer version
 	/*
