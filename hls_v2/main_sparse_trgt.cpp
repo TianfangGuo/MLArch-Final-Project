@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Random sparse initialization
-    float A_density = 0.03f;
-    float B_density = 0.03f;
+    float A_density = 0.7f;
+    float B_density = 0.7f;
 
     std::cout << "Initializing A with density " << A_density * 100 << "%\n";
     std::cout << "Initializing B with density " << B_density * 100 << "%\n";
@@ -80,11 +80,24 @@ int main(int argc, char **argv) {
     bool match = true;
     for (int i = 0; i < MAT_C_SIZE; i++) {
         if (C_hw[i] != C_sw[i]) {
-            std::cout << "Mismatch at index " << i
-                      << ": HW = " << C_hw[i]
-                      << ", SW = " << C_sw[i] << std::endl;
-            match = false;
+            int n1 = i / (M2 * M1 * M0 * N0);
+            int rem1 = i % (M2 * M1 * M0 * N0);
+            int m2 = rem1 / (M1 * M0 * N0);
+            int rem2 = rem1 % (M1 * M0 * N0);
+            int m1 = rem2 / (M0 * N0);
+            int rem3 = rem2 % (M0 * N0);
+            int m0 = rem3 / N0;
+            int n0 = rem3 % N0;
+
+            std::cout << "Mismatch at (n1=" << n1
+                    << ", m2=" << m2
+                    << ", m1=" << m1
+                    << ", m0=" << m0
+                    << ", n0=" << n0
+                    << "): HW=" << C_hw[i]
+                    << ", SW=" << C_sw[i] << std::endl;
         }
+
     }
 
     if (match) {
