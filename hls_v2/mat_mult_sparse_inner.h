@@ -10,7 +10,10 @@
 void mat_mult(
     const uint32_t *A,
     const uint32_t *B,
-    uint32_t *C
+    uint32_t *C_row_ind,
+	uint32_t *C_col_ind,
+	uint32_t *C_val,
+	uint32_t *C_len
 );
 
 

@@ -1,4 +1,4 @@
-#include "mat_mult.h"
+#include "mat_mult_sparse_inner.h"
 #include <iostream>
 #include <vector>
 #include <cstdint>
@@ -19,17 +19,20 @@ int main(int argc, char **argv) {
     std::fill(C_sw.begin(), C_sw.end(), 0);
 
     // Initialize input data
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-        //A[i] = (i % 5) == 0;
-        //A[i] = i % 10;
-    	//A[i] = (i == 0);
-    //}
-    //for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
-    	//B[i] = (i % 5) == 0;
-        //B[i] = (i + 1) % 10;
-    	//B[i] = (i == 0);
-    //}
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+        //A[i] = (i % 10) == 0;
+        //A[i] = i % 20;
+        //A[i] = (i == 0);
+       	A[i] = ((i % 10) < 9) ? (i % 10) : 0;
+    }
+    for (int i = 0; i < MAT_DIM * MAT_DIM; i++) {
+        //B[i] = (i % 10) == 0;
+        //B[i] = (i + 1) % 20;
+       	//B[i] = (i == 0);
+       	B[i] = ((i % 20) < 1) ? ((i + 1) % 10) : 0;
+    }
 
+    /*
     float target_density = 0.1f; // 10% non-zeros
     float prob_nonzero = target_density;
 
@@ -39,6 +42,7 @@ int main(int argc, char **argv) {
         A[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
         B[i] = (rand() / (float)RAND_MAX) < prob_nonzero ? (i % 10 + 1) : 0;
     }
+    */
 
     /*
     for (int i = 0; i < MAT_DIM; i++) {
@@ -63,8 +67,22 @@ int main(int argc, char **argv) {
         }
     }
 
+    // COO Format for output matrix
+    std::vector<uint32_t> C_row_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> C_col_ind(MAT_DIM * MAT_DIM);
+    std::vector<uint32_t> C_val(MAT_DIM * MAT_DIM);
+    uint32_t C_len = 0;
+
     // Obtain the hardware results (C_hw) from the accelerator
-    mat_mult(A.data(), B.data(), C_hw.data());
+    mat_mult(A.data(), B.data(), C_row_ind.data(), C_col_ind.data(), C_val.data(), &C_len);
+
+    // Convert COO format back to dense representation
+    for (int i = 0; i < C_len; i++) {
+    	int m = C_row_ind[i];
+    	int n = C_col_ind[i];
+    	int val = C_val[i];
+    	C_hw[m * MAT_DIM + n] = val;
+    }
 
     // Compare the results
     bool match = true;

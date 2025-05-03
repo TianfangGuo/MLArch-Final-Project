@@ -1,4 +1,4 @@
-#include "mat_mult.h"
+#include "mat_mult_sparse_inner.h"
 #include <cstdint>
 #include "ap_int.h"
 #include "stdio.h"
@@ -13,6 +13,7 @@ void intersection_unit(
 	uint32_t *B_col_shift,
 	uint8_t *result_len
 ) {
+    #pragma HLS INLINE
     //#pragma HLS DATAFLOW
 	// Step 1: Find all the pairwise interactions
 	ap_uint<32> AB_bitvec = A_row_bitvec & B_col_bitvec;
@@ -186,17 +187,26 @@ void intersection_unit(
 void mat_mult(
     const uint32_t *A,
     const uint32_t *B,
-    uint32_t *C
+	uint32_t *C_row_ind,
+	uint32_t *C_col_ind,
+	uint32_t *C_val,
+	uint32_t *C_len
 ) {
     #pragma HLS INTERFACE m_axi port=A offset=slave depth=1024 bundle=gmem0
     #pragma HLS INTERFACE m_axi port=B offset=slave depth=1024 bundle=gmem1
-    #pragma HLS INTERFACE m_axi port=C offset=slave depth=1024 bundle=gmem0
+    #pragma HLS INTERFACE m_axi port=C_row_ind offset=slave depth=1024 bundle=gmem0
+    #pragma HLS INTERFACE m_axi port=C_col_ind offset=slave depth=1024 bundle=gmem1
+    #pragma HLS INTERFACE m_axi port=C_val offset=slave depth=1024 bundle=gmem0
+    #pragma HLS INTERFACE s_axilite port=C_len bundle=control
     #pragma HLS INTERFACE s_axilite port=return bundle=control
 
     // Create buffers for input and output matrices
     uint32_t A_buf[MAT_DIM][MAT_DIM];
     uint32_t B_buf[MAT_DIM][MAT_DIM];
-    uint32_t C_buf[MAT_DIM][MAT_DIM];
+    uint32_t C_row_ind_buf[MAT_DIM * MAT_DIM];
+    uint32_t C_col_ind_buf[MAT_DIM * MAT_DIM];
+    uint32_t C_val_buf[MAT_DIM * MAT_DIM];
+    uint32_t C_len_buf = 0;
 
     #pragma HLS ARRAY_PARTITION variable=A_buf complete dim=2
     #pragma HLS ARRAY_PARTITION variable=B_buf complete dim=1
@@ -208,9 +218,10 @@ void mat_mult(
     // Load the matrices
     load_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
     	load_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
+        #pragma HLS LOOP_FLATTEN
+        #pragma HLS PIPELINE
     		A_buf[x][y] = A[x * MAT_DIM + y];
     		B_buf[x][y] = B[x * MAT_DIM + y];
-    		C_buf[x][y] = 0;
     		A_buf_bitvec[x].set_bit(y, A[x * MAT_DIM + y] != 0);
     		B_buf_bitvec[y].set_bit(x, B[x * MAT_DIM + y] != 0);
     	}
@@ -235,6 +246,7 @@ void mat_mult(
     // Perform the matrix multiplication (inner product)
     compute_m: for (uint8_t i = 0; i < nonzero_len_A; i++) {
     	compute_n: for (uint8_t j = 0; j < nonzero_len_B; j++) {
+        //#pragma HLS pipeline
 
     		uint8_t m = nonzero_rows_A[i];
     		uint8_t n = nonzero_cols_B[j];
@@ -269,15 +281,23 @@ void mat_mult(
     		}
 
     		// Store the sum
-    		C_buf[m][n] = sum;
+    		C_row_ind_buf[C_len_buf] = m;
+    		C_col_ind_buf[C_len_buf] = n;
+    		C_val_buf[C_len_buf] = sum;
+    		C_len_buf++;
     	}
     }
 
     // Store the matrix
-    store_x: for (uint8_t x = 0; x < MAT_DIM; x++) {
-    	store_y: for (uint8_t y = 0; y < MAT_DIM; y++) {
-    		C[x * MAT_DIM + y] = C_buf[x][y];
-    	}
+    *C_len = C_len_buf;
+    store_C_ind: for (uint32_t i = 0; i < C_len_buf; i++) {
+    #pragma HLS pipeline
+    	C_row_ind[i] = C_row_ind_buf[i];
+    	C_col_ind[i] = C_col_ind_buf[i];
+    }
+    store_C_val: for (uint32_t i = 0; i < C_len_buf; i++) {
+    #pragma HLS pipeline
+    	C_val[i] = C_val_buf[i];
     }
 
 
